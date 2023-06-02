@@ -42,3 +42,19 @@ orders/urls.py: ^create/
 myshop/urls.py: ^orders/
 cart/detail.html: Checkout change
 orders/templates: create.html & created.html
+INSTALL Celery
+pip install celery
+INSTALL RabbitMQ & Celery
+-> D:\DO\install\RabbitMQ\rabbitmq_server-3.11.17\sbin\rabbitmq-plugins enable rabbitmq_management
+-> D:\DO\install\RabbitMQ\rabbitmq_server-3.11.17\sbin\rabbitmq-server
+myshop/celery.py: 
+myshop/__init__.py: from .celery import app as celery_app
+orders/tasks.py:
+settings.py: EMAIL_BACKEND
+orders/views.py: order_created.delay(order.id)
+-> cd myshop
+-> celery -A myshop worker -l info
+-> pip install flower
+-> celery -A myshop flower
+
+-> python manage.py runserver
